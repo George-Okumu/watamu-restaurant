@@ -9,7 +9,7 @@ function NavBar() {
           <div className="flex">
             <img
               src="https://tailus.io/sources/blocks/food-delivery/preview/images/icon.png"
-              class="w-12"
+              className="w-12"
               alt="tailus logo"
               width="144"
               height="133"
@@ -33,9 +33,9 @@ function NavBar() {
               viewBox="0 0 17 14">
               <path
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M1 1h15M1 7h15M1 13h15"
               />
             </svg>

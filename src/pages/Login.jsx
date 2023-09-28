@@ -1,39 +1,48 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
+import sweetalert2 from "sweetalert2";
 
 function Login() {
   const history = useNavigate();
 
   const [loginData, setLoginData] = useState({
-    "username": "",
-    "password": "",
+    username: "",
+    password: "",
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-      try {
-        let loginres = await fetch("http://localhost:5000/login", {
-          method: "POST",
-          headers: {
-            // "Authorization": `Bearer ${mytoken}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(loginData),
-        })
+    setIsLoading(true);
+    try {
+      let loginres = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: {
+          // "Authorization": `Bearer ${mytoken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
 
-        if(loginres.ok){
-          let re = await loginres.json();
-          localStorage.setItem("loginToken", re.access_token);
-          history("/products");
-
-        }else{
-          console.log("Maybe I dont know, query the errors later")
-        }
-      } catch (error) {
-        console.log(error);
+      if (loginres.ok) {
+        let re = await loginres.json();
+        localStorage.setItem("loginToken", re.access_token);
+        sweetalert2.fire({
+          title: "Success!",
+          text: "Login Successfull",
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+        history("/products");
+      } else {
+        console.log("Maybe I dont know, query the errors later");
       }
-    
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleLoginInputChange = (e) => {

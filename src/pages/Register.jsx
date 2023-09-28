@@ -1,8 +1,9 @@
-import { data } from "autoprefixer";
-import { useEffect, useState } from "react";
-import { json } from "react-router-dom";
+import {  useState } from "react";
+import { useNavigate } from "react-router-dom";
+import SweetAlert2 from "sweetalert2";
 
 export default function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -12,8 +13,8 @@ export default function Register() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevProps) => ({
-      ...prevProps,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
     }));
   };
@@ -30,13 +31,25 @@ export default function Register() {
       });
 
       if (resp.ok) {
-        let response_data = await resp.json();
-        // console.log(response_data.message);
-        let token = response_data.access_token;
-        // console.log(token)
 
-        // Setting the token to be used in Login Page
-        localStorage.setItem("usertoken", token);
+        SweetAlert2.fire({
+          title: "Success!",
+          text: "Registration to watamu foods is successfull, login to continue",
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+        // After registration is successfull, take me to Login Page
+        navigate("/login")
+
+        // let response_data = await resp.json();
+        // console.log(response_data.message);
+        
+        // No need to store the access token from registration here
+        // let token = response_data.access_token;
+        // // console.log(token)
+
+        // // Setting the token to be used in Login Page
+        // localStorage.setItem("usertoken", token);
 
 
 
