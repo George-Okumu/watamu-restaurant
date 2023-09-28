@@ -1,1 +1,3 @@
-<h1> Watamu Restaurant </h1>
+# <h1 style="color: yellow;">Watamu Restaurant</h1>
+
+
