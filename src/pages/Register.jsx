@@ -1,26 +1,19 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SweetAlert2 from "sweetalert2";
+import Spinner from "../components/Spinner";
 
 export default function Register() {
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     phonenumber: "",
   });
- 
-  //before calling handle submit
-  //  console.log(formData); 
-
-  //After calling the handle input chnage
-  // console.log(formData); // what will the output - {
-  //   username: "us",
-  //   email: "hjahw",
-  //   password: "uiwue",
-  //   phonenumber: "sjhjs",
-  // }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -42,36 +35,27 @@ export default function Register() {
       });
 
       if (resp.ok) {
-
-        SweetAlert2.fire({
-          title: "Success!",
-          text: "Registration to watamu foods is successfull, login to continue",
-          icon: "success",
-          confirmButtonText: "Cool",
-        });
-        // After registration is successfull, take me to Login Page
-        navigate("/login")
-
-        // let response_data = await resp.json();
-        // console.log(response_data.message);
-        
-        // No need to store the access token from registration here
-        // let token = response_data.access_token;
-        // // console.log(token)
-
-        // // Setting the token to be used in Login Page
-        // localStorage.setItem("usertoken", token);
-
-
-
+        setIsLoading(true); // set loading to true
+        setTimeout(() => {
+          setIsLoading(false); // set it to false after 2 secs and direct this to login page
+          SweetAlert2.fire({
+            title: "Success!",
+            text: "Registration to watamu foods is successfull, login to continue",
+            icon: "success",
+            confirmButtonText: "Cool",
+            confirmButtonColor: "#f1cc17",
+          });
+          navigate("/login");
+        }, 1500);
       } else {
         let error_data = await resp.json();
-        console.log(error_data);
+        setErrors(error_data.message);
       }
     } catch (error) {
       console.error("Network error:", error);
     }
   };
+
   return (
     <>
       <div className="h-full md:flex mx-2">
@@ -91,6 +75,9 @@ export default function Register() {
             <p className="text-sm font-normal text-gray-600 mb-7 text-yellow-500">
               Welcome to Watamu foods
             </p>
+
+            {(Object.keys(errors).length > 0 ? <p className="text-red-500 text-normal pb-4 pt-4 italic">{errors}</p> : <p></p>)}
+
             <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -111,6 +98,7 @@ export default function Register() {
                 onChange={handleInputChange}
                 id="username"
                 placeholder="Username"
+                required
               />
             </div>
             <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
@@ -135,6 +123,7 @@ export default function Register() {
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="Email"
+                required
               />
             </div>
             <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
@@ -159,6 +148,7 @@ export default function Register() {
                 value={formData.phonenumber}
                 onChange={handleInputChange}
                 placeholder="Phone Number"
+                required
               />
             </div>
             <div className="flex items-center border-2 py-2 px-3 rounded-2xl">
@@ -181,13 +171,18 @@ export default function Register() {
                 value={formData.password}
                 onChange={handleInputChange}
                 placeholder="Password"
+                required
               />
             </div>
-            <button
-              type="submit"
-              className="block w-full bg-yellow-500 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">
-              Register
-            </button>
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <button
+                type="submit"
+                className="block w-full bg-yellow-500 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">
+                Register
+              </button>
+            )}
           </form>
         </div>
       </div>
