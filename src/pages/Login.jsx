@@ -40,10 +40,11 @@ function Login() {
         // setIsAuthenticated(true);
         // setIsLoading(false);
       } else {
+        setIsLoading(true);
         setTimeout(() => {
           setIsLoading(false);
           setIsLoginError(true);
-        }, 2000);
+        }, 1500);
       }
     } catch (error) {
       setIsLoading(true);
@@ -56,6 +57,8 @@ function Login() {
   };
 
   const handleLoginInputChange = (e) => {
+    setIsLoginError(false); // sets the isLoginError back to its default when this is triggered.
+
     setLoginData((prevData) => ({
       ...prevData,
       [e.target.name]: e.target.value,
@@ -89,6 +92,7 @@ function Login() {
                     name="username"
                     value={loginData.username}
                     placeholder="Username"
+                    required
                   />
                 </div>
 
@@ -101,12 +105,13 @@ function Login() {
                     value={loginData.password}
                     onChange={handleLoginInputChange}
                     placeholder="Password"
+                    required
                   />
                 </div>
 
                 <div className="text-center lg:text-left">
                   {isLoginError ? (
-                    <p class="text-red-500 text-sm pb-4 italic">
+                    <p className="text-red-500 text-sm pb-4 italic">
                       Invalid Credentials. Wrong Username or Password.Try Again.
                     </p>
                   ) : isServerError ? (
