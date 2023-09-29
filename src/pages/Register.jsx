@@ -10,6 +10,17 @@ export default function Register() {
     password: "",
     phonenumber: "",
   });
+ 
+  //before calling handle submit
+  //  console.log(formData); 
+
+  //After calling the handle input chnage
+  // console.log(formData); // what will the output - {
+  //   username: "us",
+  //   email: "hjahw",
+  //   password: "uiwue",
+  //   phonenumber: "sjhjs",
+  // }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -164,7 +175,7 @@ export default function Register() {
               </svg>
               <input
                 className="pl-2 outline-none border-none"
-                type="text"
+                type="password"
                 name="password"
                 id="password"
                 value={formData.password}

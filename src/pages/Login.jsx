@@ -2,16 +2,17 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import sweetalert2 from "sweetalert2";
+import { AuthContext } from "../components/AuthContext";
 
 function Login() {
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const [loginData, setLoginData] = useState({
     username: "",
     password: "",
   });
-
   const [isLoading, setIsLoading] = useState(false);
+  // const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,14 +30,21 @@ function Login() {
 
       if (loginres.ok) {
         let re = await loginres.json();
-        localStorage.setItem("loginToken", re.access_token);
-        sweetalert2.fire({
-          title: "Success!",
-          text: "Login Successfull",
-          icon: "success",
-          confirmButtonText: "Cool",
-        });
-        history("/products");
+        localStorage.setItem("loginToken", re.access_token); // sets token to local storage
+
+        setTimeout(() => {
+          // Perform login logic, e.g., validate email and password
+          // Assuming successful login for demonstration purposes
+          sweetalert2.fire({
+            title: "Success!",
+            text: "Login Successfull",
+            icon: "success",
+            // confirmButtonText: "Cool",
+          });
+          navigate("/products");
+        }, 1500);
+        // setIsAuthenticated(true);
+        // setIsLoading(false);
       } else {
         console.log("Maybe I dont know, query the errors later");
       }
