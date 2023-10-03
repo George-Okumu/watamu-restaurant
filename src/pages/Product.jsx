@@ -6,36 +6,59 @@ import Footer from "../components/Footer";
 export default function Product() {
   const [loading, setLoading] = useState(false);
   const [restaurants, setRestaurants] = useState([]);
+  const [fetchEr, setFetchEr] = useState(null);
 
   let mytoken = localStorage.getItem("loginToken");
 
-  console.log(mytoken);
+  // console.log(mytoken);
 
   useEffect(() => {
+    const timer = () => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+    };
+
+    setLoading(true);
+
     fetch("http://localhost:5000/restaurants", {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${mytoken}`,
+        Authorization: `Bearer ${mytoken}`,
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
-      .then((data) => setRestaurants(data));
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+      .then((res) => {
+        if (!res.ok) {
+          timer();
+          throw new Error("Kindly check your network and reload again.");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        timer();
+        setRestaurants(data);
+      })
+      .catch((error) => {
+        timer();
+        setFetchEr(error);
+      });
   }, []);
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-12">
-        {restaurants.map((item) =>
-          loading ? <SkeletonLoader key={item.id} /> : <Restaurants key={item.id + 1} {...item} />
-        )}{" "}
-      </div>
-      <Footer/>
-
+      {loading ? (
+        <SkeletonLoader />
+      ) : fetchEr ? (
+        <p className="text-red-500 text-center pt-20 pb-4 text-">{fetchEr.message}</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-12">
+          {restaurants.map((item) =>
+            loading ? <SkeletonLoader key={item.id} /> : <Restaurants key={item.id + 1} {...item} />
+          )}{" "}
+        </div>
+      )}
+      <Footer />
     </>
   );
 }
