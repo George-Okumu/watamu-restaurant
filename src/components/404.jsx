@@ -1,6 +1,7 @@
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function PageNotFound() {
+  const navigate = useNavigate();
   return (
     <>
       <div className="bg-gray-100 h-screen justify-center">
@@ -97,11 +98,11 @@ export default function PageNotFound() {
           </div>
         </center>
         <center className="mt-6">
-          <NavLink
-            to="/"
+          <button
+            onClick={() => navigate(-1)}
             className="text-gray-500 font-mono bg-yellow-500 text-xl bg-yellow-500 p-3 rounded-md hover:shadow-md">
             Go back{" "}
-          </NavLink>
+          </button>
         </center>
       </div>
     </>
