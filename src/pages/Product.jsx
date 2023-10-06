@@ -3,14 +3,11 @@ import SkeletonLoader from "../components/SkeletonLoader";
 import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 
-export default function Product() {
+export default function Product({loginToken}) {
   const [loading, setLoading] = useState(false);
   const [restaurants, setRestaurants] = useState([]);
   const [fetchEr, setFetchEr] = useState(null);
 
-  let mytoken = localStorage.getItem("loginToken");
-
-  // console.log(mytoken);
 
   useEffect(() => {
     const timer = () => {
@@ -24,7 +21,7 @@ export default function Product() {
     fetch("http://localhost:5000/restaurants", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${mytoken}`,
+        Authorization: `Bearer ${loginToken}`,
         "Content-Type": "application/json",
       },
     })

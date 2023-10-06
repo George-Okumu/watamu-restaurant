@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { AuthContext } from "../components/AuthContext";
 
-function Login() {
+function Login({ log }) {
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     username: "",
@@ -29,15 +29,18 @@ function Login() {
 
       if (loginres.ok) {
         let re = await loginres.json();
-        localStorage.setItem("loginToken", re.access_token); // sets token to local storage
 
         setIsLoading(true);
         setTimeout(() => {
+          // sets token to local storage
+          localStorage.setItem("loginToken", re.access_token);
+          // gets Item from the local storage and updates state
+          log(localStorage.getItem("loginToken"));
           setIsLoading(false);
+
           navigate("/products");
         }, 2000);
 
-        // setIsAuthenticated(true);
         // setIsLoading(false);
       } else {
         setIsLoading(true);
@@ -52,7 +55,7 @@ function Login() {
       setTimeout(() => {
         setIsLoading(false);
         setIsServerError(true);
-      }, 1000)
+      }, 1000);
     }
   };
 
