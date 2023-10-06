@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import Logout from "../pages/Logout";
 
-function NavBar() {
+function NavBar({ logintoken, setLog }) {
+  // console.log(logintoken);
+
+  const linkStyling =
+    "block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-yellow-500 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-500 dark:hover:text-white md:dark:hover:bg-transparent";
+
   return (
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900 mx-4">
@@ -43,37 +49,36 @@ function NavBar() {
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-500">
               <li>
-                <NavLink
-                  to="/"
-                  className="block py-2 pl-3 pr-4 text-white bg-yellow-500 rounded md:bg-transparent md:text-yellow-500 md:p-0 dark:text-white md:dark:text-yellow-500">
+                <NavLink to="/" className={linkStyling}>
                   Home
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/products"
-                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-yellow-500 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-500 dark:hover:text-white md:dark:hover:bg-transparent">
+                <NavLink to="/products" className={linkStyling}>
                   Products
                 </NavLink>
               </li>
+              {logintoken !== null ? (
+                <></>
+              ) : (
+                <li>
+                  <NavLink to="/register" className={linkStyling}>
+                    Register
+                  </NavLink>
+                </li>
+              )}
+
+              {logintoken !== null ? (
+                <Logout nulltoken={setLog} />
+              ) : (
+                <li>
+                  <NavLink to="/login" className={linkStyling}>
+                    Login
+                  </NavLink>
+                </li>
+              )}
               <li>
-                <NavLink
-                  to="/register"
-                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-yellow-500 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-500 dark:hover:text-white md:dark:hover:bg-transparent">
-                  Register
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/login"
-                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-yellow-500 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-500 dark:hover:text-white md:dark:hover:bg-transparent">
-                  Login
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/order"
-                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-yellow-500 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-500 dark:hover:text-white md:dark:hover:bg-transparent">
+                <NavLink to="/order" className={linkStyling}>
                   Orders
                 </NavLink>
               </li>
