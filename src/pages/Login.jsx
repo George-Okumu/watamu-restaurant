@@ -32,10 +32,7 @@ function Login({ log }) {
 
         setIsLoading(true);
         setTimeout(() => {
-          // sets token to local storage
-          localStorage.setItem("loginToken", re.access_token);
-          // gets Item from the local storage and updates state
-          log(localStorage.getItem("loginToken"));
+          log(re.access_token); //store token in state
           setIsLoading(false);
 
           navigate("/products");

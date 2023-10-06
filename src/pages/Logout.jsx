@@ -5,7 +5,6 @@ export default function Logout({nulltoken}){
     const nav = useNavigate();
     
     const logout = () => {
-        localStorage.clear(); // Lets just clear, ut setting the state to null also works
         nulltoken(null); // Set logintokinstate to null
         nav("/");
     }
