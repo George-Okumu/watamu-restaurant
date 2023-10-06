@@ -9,19 +9,20 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./components/AuthContext";
 import { Fragment, useEffect, useState } from "react";
 import PageNotFound from "./components/404";
+import Logout from "./pages/Logout";
 
 function App() {
-
+  const [loginToken, setLoginToken] = useState(null);
   return (
     <>
-      <NavBar />
-      
+      <NavBar logintoken={loginToken} setLog={setLoginToken}/>
+
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login log={setLoginToken}/>} />
         <Route path="/order" element={<Order />} exact />
         <Route path="/register" element={<Register />} />
-        <Route path="/products" element={<Product/>}/>
+        <Route path="/products" element={<Product loginToken={loginToken}/>}/>
         <Route path="*" Component={PageNotFound}/>
       </Routes>
     </>
