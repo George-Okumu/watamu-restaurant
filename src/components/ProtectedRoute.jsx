@@ -1,21 +1,16 @@
 import React, { useContext } from 'react';
 import { Route, Navigate } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
+import Product from '../pages/Product';
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
-  const { isAuthenticated } = useContext(AuthContext);
+export const ProtectedRoute = () => {
+  const { token } = useContext(AuthContext);
+
 
   return (
-    <Route
-      {...rest}
-      render={(props) =>
-        isAuthenticated ? (
-          <Component key={props.location.key} {...props} />
-        ) : (
-          <Navigate to="/login" />
-        )
-      }
-    />
+    <div>
+      { token ? (<Product/>) : <Navigate to="/login" />}
+    </div>
   );
 };
 

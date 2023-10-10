@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Logout from "../pages/Logout";
+import { AuthContext } from "./AuthContext";
 
-function NavBar({ logintoken, setLog }) {
+function NavBar() {
   // console.log(logintoken);
+  const { token } = useContext(AuthContext);
 
   const linkStyling =
     "block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-yellow-500 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-500 dark:hover:text-white md:dark:hover:bg-transparent";
@@ -58,7 +60,7 @@ function NavBar({ logintoken, setLog }) {
                   Products
                 </NavLink>
               </li>
-              {logintoken !== null ? (
+              {token !== null ? (
                 <></>
               ) : (
                 <li>
@@ -68,8 +70,8 @@ function NavBar({ logintoken, setLog }) {
                 </li>
               )}
 
-              {logintoken !== null ? (
-                <Logout nulltoken={setLog} />
+              {token ? (
+                <Logout />
               ) : (
                 <li>
                   <NavLink to="/login" className={linkStyling}>

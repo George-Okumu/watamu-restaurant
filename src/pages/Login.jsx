@@ -3,7 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { AuthContext } from "../components/AuthContext";
 
-function Login({ log }) {
+function Login() {
+  const {token,setToken} = useContext(AuthContext);
+
+  // console.log(token);
+
+
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     username: "",
@@ -32,7 +37,7 @@ function Login({ log }) {
 
         setIsLoading(true);
         setTimeout(() => {
-          log(re.access_token); //store token in state
+          setToken(re.access_token); //store token in state
           setIsLoading(false);
 
           navigate("/products");

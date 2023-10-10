@@ -1,11 +1,13 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../components/AuthContext";
 
-export default function Logout({nulltoken}){
+export default function Logout(){
     const nav = useNavigate();
+    const {setToken} = useContext(AuthContext);
     
     const logout = () => {
-        nulltoken(null); // Set logintokinstate to null
+        setToken(); // Set token state to empty
         nav("/");
     }
     return (

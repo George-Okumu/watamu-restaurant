@@ -1,9 +1,11 @@
 import Restaurants from "../components/Restaurants";
 import SkeletonLoader from "../components/SkeletonLoader";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Footer from "../components/Footer";
+import { AuthContext } from "../components/AuthContext";
 
-export default function Product({loginToken}) {
+export default function Product() {
+  const {token} = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [restaurants, setRestaurants] = useState([]);
   const [fetchEr, setFetchEr] = useState(null);
@@ -21,7 +23,7 @@ export default function Product({loginToken}) {
     fetch("http://localhost:5000/restaurants", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${loginToken}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     })
