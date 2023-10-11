@@ -4,7 +4,7 @@ import Spinner from "../components/Spinner";
 import { AuthContext } from "../components/AuthContext";
 
 function Login() {
-  const {token,setToken} = useContext(AuthContext);
+  const {setId,setToken} = useContext(AuthContext);
 
   // console.log(token);
 
@@ -38,6 +38,7 @@ function Login() {
         setIsLoading(true);
         setTimeout(() => {
           setToken(re.access_token); //store token in state
+          setId(re.user_id);
           setIsLoading(false);
 
           navigate("/products");

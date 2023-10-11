@@ -10,6 +10,7 @@ export default function Product() {
   const [restaurants, setRestaurants] = useState([]);
   const [fetchEr, setFetchEr] = useState(null);
 
+  
 
   useEffect(() => {
     const timer = () => {

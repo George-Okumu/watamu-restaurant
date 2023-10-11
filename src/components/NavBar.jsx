@@ -60,7 +60,7 @@ function NavBar() {
                   Products
                 </NavLink>
               </li>
-              {token !== null ? (
+              {token ? (
                 <></>
               ) : (
                 <li>
@@ -79,11 +79,25 @@ function NavBar() {
                   </NavLink>
                 </li>
               )}
-              <li>
-                <NavLink to="/order" className={linkStyling}>
-                  Orders
-                </NavLink>
-              </li>
+              {token ? (
+                <li>
+                  <NavLink to="/order" className={linkStyling}>
+                    Orders
+                  </NavLink>
+                </li>
+              ) : (
+                <></>
+              )}
+
+              {token ? (
+                <li>
+                  <NavLink to="/profile" className={linkStyling}>
+                    Profile
+                  </NavLink>
+                </li>
+              ) : (
+                <></>
+              )}
             </ul>
           </div>
         </div>
